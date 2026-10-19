@@ -32,7 +32,7 @@ public class CarEntity extends Entity {
     public void setCarClass(int value) { entityData.set(CAR_CLASS, Math.max(0, Math.min(2, value))); }
     public float getHp() { return entityData.get(HP); }
     public void damageCar(float amount) {
-        if (level().isClientSide || isRemoved() || amount <= 0) return;
+        if (level().isClientSide() || isRemoved() || amount <= 0) return;
         float applied = entityData.get(CAR_CLASS) == 1 ? amount * 0.55f : amount; // Skoda zırhlı gövde
         float hp = Math.max(0, getHp() - applied); entityData.set(HP, hp);
         entityData.set(DAMAGE_STAGE, Math.min(2, (int)((400 - hp) / 150)));
@@ -46,11 +46,11 @@ public class CarEntity extends Entity {
             if (distance <= 4.0) player.hurtServer(server, server.damageSources().explosion(this, getControllingPassenger()), (float)(12.0 * (1.0 - distance / 5.0)));
         }
         server.sendParticles(net.minecraft.core.particles.ParticleTypes.EXPLOSION, getX(), getY() + 0.5, getZ(), 1, 0, 0, 0, 0);
-        server.playSound(null, blockPosition(), net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE, net.minecraft.sounds.SoundSource.BLOCKS, 4.0f, 1.0f);
+        server.playSound(null, getX(), getY(), getZ(), net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE, net.minecraft.sounds.SoundSource.BLOCKS, 4.0f, 1.0f);
         discard();
     }
     public void applyControls(float throttle, float turn) {
-        if (level().isClientSide) return;
+        if (level().isClientSide()) return;
         speed += throttle * (0.006f + entityData.get(CAR_CLASS) * 0.0025f);
         if (throttle < -0.1f) speed *= 0.94f;
         if (Math.abs(throttle) < 0.01f) speed *= 0.985f;
@@ -67,8 +67,8 @@ public class CarEntity extends Entity {
         if (!onGround()) setDeltaMovement(getDeltaMovement().add(0, -0.08, 0));
         move(MoverType.SELF, getDeltaMovement());
         setDeltaMovement(getDeltaMovement().multiply(0.92, 0.98, 0.92));
-        if (!level().isClientSide && hasImpulse && horizontalCollision) damageCar(Math.max(1, (float)(Math.abs(speed) * 260)));
-        if (!level().isClientSide && tickCount % 5 == 0 && getControllingPassenger() instanceof Player) {
+        if (!level().isClientSide() && hasImpulse && horizontalCollision) damageCar(Math.max(1, (float)(Math.abs(speed) * 260)));
+        if (!level().isClientSide() && tickCount % 5 == 0 && getControllingPassenger() instanceof Player) {
             // Passenger input is supplied by the client packet.
         }
     }
@@ -80,7 +80,7 @@ public class CarEntity extends Entity {
     @Override public boolean canBeCollidedWith() { return true; }
     @Override public boolean isPushable() { return true; }
     @Override public net.minecraft.world.InteractionResult interact(Player player, net.minecraft.world.InteractionHand hand) {
-        if (!level().isClientSide && getPassengers().isEmpty()) player.startRiding(this);
+        if (!level().isClientSide() && getPassengers().isEmpty()) player.startRiding(this);
         return net.minecraft.world.InteractionResult.SUCCESS;
     }
     @Override protected void positionRider(Entity passenger, Entity.MoveFunction moveFunction) { moveFunction.accept(passenger, getX(), getY() + 0.55, getZ()); }
