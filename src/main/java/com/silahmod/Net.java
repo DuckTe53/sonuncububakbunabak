@@ -1,12 +1,11 @@
 package com.silahmod;
 
+import com.silahmod.car.CarEntity;
+
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import com.silahmod.vehicle.CarEntity;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
@@ -48,20 +47,23 @@ public final class Net {
 		}
 	}
 
+	/** Araba surusu: W/A/S/D basili mi (bit'ler CarEntity.INPUT_*). Her istemci tick'inde, arabadayken gider. */
+	public record CarInputPayload(int bits) implements CustomPacketPayload {
+		public static final CustomPacketPayload.Type<CarInputPayload> TYPE = new CustomPacketPayload.Type<>(SilahMod.id("car_input"));
+		public static final StreamCodec<FriendlyByteBuf, CarInputPayload> CODEC =
+				ByteBufCodecs.VAR_INT.map(CarInputPayload::new, CarInputPayload::bits).cast();
 
-	/** Sürüş kontrolleri: W/S gaz-fren, A/D direksiyon. */
-	public record CarControlPayload(float throttle, float turn) implements CustomPacketPayload {
-		public static final CustomPacketPayload.Type<CarControlPayload> TYPE = new CustomPacketPayload.Type<>(SilahMod.id("car_control"));
-		public static final StreamCodec<FriendlyByteBuf, CarControlPayload> CODEC = StreamCodec.composite(
-				ByteBufCodecs.FLOAT, CarControlPayload::throttle, ByteBufCodecs.FLOAT, CarControlPayload::turn, CarControlPayload::new);
-		@Override public CustomPacketPayload.Type<? extends CustomPacketPayload> type() { return TYPE; }
+		@Override
+		public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+			return TYPE;
+		}
 	}
 
 	public static void init() {
 		PayloadTypeRegistry.playC2S().register(ShootPayload.TYPE, ShootPayload.CODEC);
 		PayloadTypeRegistry.playC2S().register(ReloadPayload.TYPE, ReloadPayload.CODEC);
 		PayloadTypeRegistry.playC2S().register(GiveWeaponPayload.TYPE, GiveWeaponPayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(CarControlPayload.TYPE, CarControlPayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(CarInputPayload.TYPE, CarInputPayload.CODEC);
 
 		ServerPlayNetworking.registerGlobalReceiver(ShootPayload.TYPE,
 				(payload, context) -> Combat.shoot(context.player()));
@@ -69,8 +71,12 @@ public final class Net {
 				(payload, context) -> Combat.reload(context.player()));
 		ServerPlayNetworking.registerGlobalReceiver(GiveWeaponPayload.TYPE,
 				(payload, context) -> Combat.giveWeapon(context.player(), payload.index()));
-		ServerPlayNetworking.registerGlobalReceiver(CarControlPayload.TYPE, (payload, context) -> {
-			if (context.player().getVehicle() instanceof CarEntity car) car.applyControls(payload.throttle(), payload.turn());
-		});
+
+		ServerPlayNetworking.registerGlobalReceiver(CarInputPayload.TYPE,
+				(payload, context) -> {
+					if (context.player().getVehicle() instanceof CarEntity car) {
+						car.setInput(payload.bits());
+					}
+				});
 	}
 }

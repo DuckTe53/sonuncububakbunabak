@@ -29,7 +29,9 @@
   "item.silahmod.knife": "Bıçak",
   "message.silahmod.backstab": "ARKADAN SALDIRI!",
   "item.silahmod.kriss_vector": "Kriss Vector",
-  "item.silahmod.car_normal": "Normal Sınıf Araba",
-  "item.silahmod.car_skoda": "Zırhlı Küçük Skoda",
-  "item.silahmod.car_luxury": "Lüks Süper Araba"
+  "entity.silahmod.car": "Araba",
+  "item.silahmod.car_black_sedan": "Siyah Sedan",
+  "item.silahmod.car_armored_skoda": "Zırhlı Skoda",
+  "item.silahmod.car_lamborghini": "Lamborghini",
+  "message.silahmod.car_no_driver": "Bu arabayı sürmek için sağ tık yap"
 }

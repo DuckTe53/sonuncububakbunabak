@@ -1,6 +1,6 @@
 # Silah Modu (Fabric, Minecraft 1.21.11)
 
-8 ateşli silah, bıçak, medkit ve 4 zırh (2 kask, 2 yelek) ekler.
+8 ateşli silah, bıçak, medkit, 4 zırh (2 kask, 2 yelek) ve 3 sürülebilir araba ekler.
 
 ## Kurulum
 
@@ -52,6 +52,22 @@ Değerler `WeaponConfig.java` içindeki `KNIFE_*` satırlarındadır. Menüde (B
 - **Yelek 1 / 2:** gövde hasarını %15 / %30 azaltır.
 - **Medkit:** basılı tutunca bandaj sarılır; can dolar ve 60 sn boyunca 10 geçici kalp verir.
 
+## Arabalar
+
+Üç araba: **Siyah Sedan**, **Zırhlı Skoda**, **Lamborghini**. Esyayi yere sağ tıklayarak koyarsın; araca sağ tıklayıp binersin.
+
+| Tuş (arabadayken) | İşlev |
+|---|---|
+| **W** | Hızlanır (basılı tutulduğu sürece) |
+| **S** | Yavaşlar / durunca geri gider |
+| **A / D** | Sola / sağa döner (hız varken) |
+
+- Can: **400 HP**. Bir yere çarpınca hıza oranla hasar alır. Vuruşlar da hasar verir.
+- Her **150 hasarda** görünüm değişir (150+ hasarlı, 300+ ağır hasarlı): doku kararır, çatlar, bazı parçalar (tampon, bir teker) kopar.
+- Can bitince TNT ile aynı güçte (4) patlar; **sadece yakındaki oyunculara** hasar verir, blok ve mobları etkilemez.
+- Değerler `src/main/java/com/silahmod/car/CarEntity.java` içindeki sabitlerdedir (`MAX_HP`, `MAX_SPEED`, `CRASH_DAMAGE_PER_SPEED` vb.).
+- Görseller `tools/gen_cars.py` ile üretilir (`python3 tools/gen_cars.py`).
+
 ## Derleme (kendi bilgisayarında)
 
 Derleme aracı için JDK 25 gerekir (oyun Java 21 hedefiyle derlenir).
@@ -64,5 +80,5 @@ Derleme aracı için JDK 25 gerekir (oyun Java 21 hedefiyle derlenir).
 
 ## Modelleri yeniden üretme
 
-Silah ve bıçak modelleri `tools/gen_models.py`, zırhlar ve medkit `tools/gen_armor.py` ile üretilir (`python3 tools/gen_models.py`).
+Silah ve bıçak modelleri `tools/gen_models.py`, zırhlar ve medkit `tools/gen_armor.py`, arabalar `tools/gen_cars.py` ile üretilir.
 `tools/preview.py` modellerin önizlemesini çizer (matplotlib gerekir).

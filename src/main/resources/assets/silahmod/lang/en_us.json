@@ -29,7 +29,8 @@
   "item.silahmod.knife": "Knife",
   "message.silahmod.backstab": "BACKSTAB!",
   "item.silahmod.kriss_vector": "Kriss Vector",
-  "item.silahmod.car_normal": "Standard Car",
-  "item.silahmod.car_skoda": "Armored Compact Skoda",
-  "item.silahmod.car_luxury": "Luxury Supercar"
+  "entity.silahmod.car": "Car",
+  "item.silahmod.car_black_sedan": "Black Sedan",
+  "item.silahmod.car_armored_skoda": "Armored Skoda",
+  "item.silahmod.car_lamborghini": "Lamborghini"
 }
