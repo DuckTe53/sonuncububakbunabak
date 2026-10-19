@@ -170,7 +170,7 @@ public final class ModItems {
 					entries.accept(CAR_ARMORED_SKODA);
 					entries.accept(CAR_LAMBORGHINI);
 					entries.accept(KNIFE);
-					entries.accept(MEDKIT);
+					entries.accept(new ItemStack(MEDKIT, WeaponConfig.MEDKIT_MENU_GIVE));
 					entries.accept(HELMET_1);
 					entries.accept(VEST_1);
 					entries.accept(createHelmet2(context.holders()));
