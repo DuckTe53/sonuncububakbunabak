@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.silahmod.item.GunItem;
 import com.silahmod.item.KnifeItem;
 import com.silahmod.item.MedkitItem;
+import com.silahmod.vehicle.CarItem;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.HolderLookup;
@@ -45,6 +46,11 @@ public final class ModItems {
 	/** Bicak: hasar mantigi (arkadan / onden / kafa) Combat.onAttack icinde. Sayilar WeaponConfig'de. */
 	public static final KnifeItem KNIFE = register("knife", KnifeItem::new,
 			new Item.Properties().stacksTo(1));
+
+	// ---------------- ARAÇLAR ----------------
+	public static final Item CAR_NORMAL = register("car_normal", p -> new CarItem(p, 0), new Item.Properties().stacksTo(1));
+	public static final Item CAR_SKODA = register("car_skoda", p -> new CarItem(p, 1), new Item.Properties().stacksTo(1));
+	public static final Item CAR_LUXURY = register("car_luxury", p -> new CarItem(p, 2), new Item.Properties().stacksTo(1));
 
 	// ---------------- ZIRHLAR (klasik envanterdeki zirh yuvalarindan giyilir) ----------------
 	/** Kask 1: demir kask gibi 2 zirh. Kafa hasari azaltmasi Armors.java'da. */
@@ -157,6 +163,9 @@ public final class ModItems {
 						entries.accept(gun.createFull());
 					}
 					entries.accept(KNIFE);
+				entries.accept(CAR_NORMAL);
+				entries.accept(CAR_SKODA);
+				entries.accept(CAR_LUXURY);
 					entries.accept(new ItemStack(MEDKIT, WeaponConfig.MEDKIT_MENU_GIVE));
 					entries.accept(HELMET_1);
 					entries.accept(VEST_1);

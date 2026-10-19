@@ -28,5 +28,8 @@
   "item.silahmod.p90": "FN P90",
   "item.silahmod.knife": "Bıçak",
   "message.silahmod.backstab": "ARKADAN SALDIRI!",
-  "item.silahmod.kriss_vector": "Kriss Vector"
+  "item.silahmod.kriss_vector": "Kriss Vector",
+  "item.silahmod.car_normal": "Normal Sınıf Araba",
+  "item.silahmod.car_skoda": "Zırhlı Küçük Skoda",
+  "item.silahmod.car_luxury": "Lüks Süper Araba"
 }

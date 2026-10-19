@@ -2,6 +2,7 @@ package com.silahmod;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
+import com.silahmod.vehicle.Cars;
 
 public class SilahMod implements ModInitializer {
 	public static final String MOD_ID = "silahmod";
@@ -12,6 +13,7 @@ public class SilahMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		Cars.init();
 		ModComponents.init();
 		ModItems.init();
 		Net.init();
